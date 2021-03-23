@@ -26,6 +26,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //metodos CRUD
+
+    //CREATE
     public Boolean insertData(String idPersona, String nombre, String apellido){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -41,6 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     //obtener datos
+    //READ
     public Cursor getData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor=db.rawQuery("SELECT * FROM persona", null);
