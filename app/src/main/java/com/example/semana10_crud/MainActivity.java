@@ -8,12 +8,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    String idP;
     EditText id, name, lastname;
     Button insert, list, update, delete;
     DatabaseHandler DB;
+    String action="new";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         delete=findViewById(R.id.btnDelete);
         list=findViewById(R.id.btnViewData);
         DB = new DatabaseHandler(this);
+
+
+        showData(); //permitira mostar los datos recibidos del ListActivity
 
         //evento click de los botones
         insert.setOnClickListener(new View.OnClickListener() {
@@ -120,5 +128,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showData() {
+        try{
+            Bundle bundle= getIntent().getExtras();
+            action = bundle.getString("action");
+            if(action.equals("edit")){
+
+                //mostar/ocultar botones
+                update.setVisibility(View.VISIBLE);
+                insert.setVisibility(View.GONE);
+
+
+                idP= bundle.getString("id");
+                String person[]=bundle.getStringArray("person");
+                TextView tempVal = (TextView) findViewById(R.id.id);
+                tempVal.setText(idP);
+
+                tempVal=(TextView) findViewById(R.id.nombre);
+                tempVal.setText(person[0].toString());
+
+                tempVal=(TextView) findViewById(R.id.apellido);
+                tempVal.setText(person[1].toString());
+            }
+        }catch (Exception e){
+            Toast.makeText(MainActivity.this, "Error: " +
+                    e.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+        }
     }
 }
